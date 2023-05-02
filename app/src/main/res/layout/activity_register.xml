@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="nameRegister"
+            type="String" />
+
+        <variable
+            name="ageRegister"
+            type="String" />
+
+        <variable
+            name="sexRegister"
+            type="String" />
+
+        <variable
+            name="emailRegister"
+            type="String" />
+
+        <variable
+            name="passwordRegister"
+            type="String" />
+
+        <variable
+            name="error"
+            type="String" />
+
+        <variable
+            name="isButtonEnabled"
+            type="Boolean" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/registerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:fontFamily="monospace"
+            android:hint="Registre-se"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etNameRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nome completo:"
+            android:textSize="15sp"
+            app:requiredField="@{error}"
+            android:text="@{nameRegister}"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintTop_toBottomOf="@id/registerView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etAgeRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Idade:"
+            android:text="@{ageRegister}"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintTop_toBottomOf="@id/etNameRegister"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSexRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Sexo:"
+            android:text="@{sexRegister}"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintTop_toBottomOf="@id/etAgeRegister"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEmailRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email:"
+            android:text="@{emailRegister}"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintTop_toBottomOf="@id/etSexRegister"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPassowrdRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Senha:"
+            android:text="@{passwordRegister}"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintTop_toBottomOf="@id/etEmailRegister"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <Button
+            android:id="@+id/btnCreateCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Criar conta"
+            android:enabled="@{isButtonEnabled}"
+            android:backgroundTint="@color/teal_200"
+            android:layout_marginTop="50dp"
+            app:layout_constraintTop_toBottomOf="@id/etPassowrdRegister"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
