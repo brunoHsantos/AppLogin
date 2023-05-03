@@ -9,14 +9,32 @@ import br.com.dev.applogin.view.detail.ProfileDetailActivity
 
 class LoginViewModel(
 
-    val repositoryLocal: IRepositoryLocal,
-    val repositoryRemote: IRepositoryRemote
+    val repositoryLocal: IRepositoryLocal
 
 ): ViewModel() {
 
     val profileLogin = MutableLiveData<Profile>()
     val loginFailed = MutableLiveData<String>()
+    val profileError = MutableLiveData<Unit>()
 
+
+
+    /*fun loginProfileId(profile: Int?){ repositoryRemote.getProfileById( profile, { profile->
+        profile?.let {
+            profileLogin.postValue(it)
+        }?: run{
+            profileError.postValue(Unit)
+        }
+    },
+        isError = {
+            profileError.postValue(Unit)
+        }
+
+    )
+
+    }
+
+     */
 
     fun loginProfile(profile: Int?) {
 
@@ -25,6 +43,7 @@ class LoginViewModel(
 
         loginFailed.postValue("Campos vazios")
     }
+
 }
 
 

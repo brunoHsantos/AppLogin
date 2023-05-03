@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface IApi {
 
     @GET("profile/detail")
-    fun getProfileById(@Query("profileId") profileId: Int): Call<Profile>
+    fun getProfileById(@Query("profileId") profileId: Int?): Call<Profile>
 
 
     @POST("login")

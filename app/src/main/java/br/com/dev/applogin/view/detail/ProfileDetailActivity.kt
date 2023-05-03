@@ -73,7 +73,7 @@ class ProfileDetailActivity: AppCompatActivity() {
 
     companion object {
         const val IS_LOGIN = "isEnter"
-        fun startProfile(context: Context, profileId: Int?) {
+        fun startProfile(context: Context, profileId: Int? = null) {
             val intent = Intent(context, ProfileDetailActivity::class.java)
             intent.putExtra(IS_LOGIN, profileId)
             context.startActivity(intent)

@@ -15,7 +15,6 @@ abstract class ProfileDataBase: RoomDatabase() {
 
     companion object {
         private var INSTANCE: ProfileDataBase? = null
-
         fun getDatabaseInstance(context: Context): ProfileDataBase? {
             if(INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(

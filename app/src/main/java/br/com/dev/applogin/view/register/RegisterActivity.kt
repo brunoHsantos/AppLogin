@@ -14,7 +14,7 @@ import br.com.dev.applogin.model.dataClass.Profile
 import br.com.dev.applogin.model.repository.RepositoryLocal
 import br.com.dev.applogin.view.login.LoginActivity
 
-class RegisterActivity(val listener: Ilistener): AppCompatActivity() {
+class RegisterActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var viewModel: RegisterViewModel
@@ -36,10 +36,9 @@ class RegisterActivity(val listener: Ilistener): AppCompatActivity() {
             }
         })[RegisterViewModel::class.java]
 
-       lateinit var profile: Profile
 
         if (isNewLogin) {
-            configureClick(profile)
+            configureClick()
             configureObserables()
         }
     }
@@ -50,19 +49,18 @@ class RegisterActivity(val listener: Ilistener): AppCompatActivity() {
         }
     }
 
-    private fun configureClick(profile: Profile) {
+    private fun configureClick() {
 
         binding.btnCreateCount.setOnClickListener {
 
-            val nameR = binding.nameRegister
-            val ageR = binding.etAgeRegister.text.hashCode()
-            val sexR = binding.sexRegister
-            val emailR = binding.emailRegister
-            val passwordR = binding.passwordRegister
+            val nameR = binding.etNameRegister.text.toString()
+            val ageR = binding.etAgeRegister.text.toString()
+            val sexR = binding.etSexRegister.text.toString()
+            val emailR = binding.etEmailRegister.text.toString()
+            val passwordR = binding.etPassowrdRegister.text.toString()
 
-            viewModel.createProfile(nameR, ageR, sexR, emailR, passwordR)
-            LoginActivity.startActivity(this, profile.id)
-            listener.profileLogin(profile.id)
+            viewModel.createProfile(nameR, ageR.toInt(), sexR, emailR, passwordR)
+            LoginActivity.startActivity(this)
         }
     }
 

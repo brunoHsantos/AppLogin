@@ -4,9 +4,10 @@ import br.com.dev.applogin.model.dataClass.Profile
 
 interface IRepositoryLocal {
 
-    fun insertPorfile(profile: Profile){}
+    fun insertProfile(profile: Profile){}
 
     fun profileById(profileId: Int?): Profile?
 
+    fun enterLogin(profile: Profile)
 
 }

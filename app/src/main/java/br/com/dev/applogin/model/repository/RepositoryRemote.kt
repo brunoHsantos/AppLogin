@@ -29,7 +29,7 @@ class RepositoryRemote(val api: IApi): IRepositoryRemote {
     }
 
 
-    override fun getProfileById(profileId: Int, isSuccess: (Profile?) -> Unit, isError: () -> Unit) {
+    override fun getProfileById(profileId: Int?, isSuccess: (Profile?) -> Unit, isError: () -> Unit) {
 
         val call = api.getProfileById(profileId)
         call.enqueue(object : Callback<Profile> {

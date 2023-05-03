@@ -12,10 +12,8 @@ import br.com.dev.applogin.R
 import br.com.dev.applogin.databinding.ActivityLoginBinding
 import br.com.dev.applogin.localData.ProfileDataBase
 import br.com.dev.applogin.model.dataClass.Profile
+import br.com.dev.applogin.model.repository.IRepositoryLocal
 import br.com.dev.applogin.model.repository.RepositoryLocal
-import br.com.dev.applogin.model.repository.RepositoryRemote
-import br.com.dev.applogin.remoteData.ApiService
-import br.com.dev.applogin.remoteData.IApi
 import br.com.dev.applogin.view.detail.ProfileDetailActivity
 import br.com.dev.applogin.view.register.Ilistener
 import br.com.dev.applogin.view.register.RegisterActivity
@@ -25,11 +23,12 @@ class LoginActivity: AppCompatActivity(), Ilistener {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: LoginViewModel
-    private lateinit var profile: Profile
+   // private lateinit var profile: Profile
 
+    private lateinit var repositoryLocal: IRepositoryLocal
+    private lateinit var profile: ProfileDataBase
 
-
-    private val profileId: Int? by lazy { intent.extras?.getInt(IS_CREATE_LOGIN) }
+//    val profileId : Int? by lazy {  intent.extras?.getInt(IS_CREATE_LOGIN) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,37 +39,49 @@ class LoginActivity: AppCompatActivity(), Ilistener {
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return LoginViewModel(
-                    repositoryLocal = RepositoryLocal(ProfileDataBase.getDatabaseInstance(this@LoginActivity)),
-                    repositoryRemote = RepositoryRemote(ApiService.getService().create(IApi::class.java)
-                    )
-
+                    repositoryLocal = RepositoryLocal(ProfileDataBase.getDatabaseInstance(this@LoginActivity))
                 )as T
             }
 
         })[LoginViewModel::class.java]
 
+        /*
 
-        if (profileId != null){
-            viewModel.loginProfile(profileId)
+
+        if (profileId != null) {
+            viewModel.loginProfileId(profileId)
             profileLogin(profileId)
         }else{
-            enterLogin(profile)
+            viewModel.loginProfile(profileId)
+
         }
+
+
+         */
+        enter()
         createProfileClick()
     }
 
 
-    private fun enterLogin(profileId: Profile){
+
+
+    private fun enter(){
         binding.login.setOnClickListener {
-            binding.apply {
-                if (email == profileId.email && password == profileId.password) {
-                    profileLogin(profileId.id)
+                if (binding.etEmailLogin.text.toString().isNotEmpty() && binding.etPassowrdLogin.text.toString().isNotEmpty()) {
+                    var profile = Profile(email = binding.etEmailLogin.text.toString(), password = binding.etPassowrdLogin.text.toString())
+                    //profileLogin(profile)
+
+                    try {
+                        repositoryLocal.enterLogin(profile)
+                    }catch (e: Exception){
+                        println(e.message)
+                    }
+
                 }else{
                     viewModel.loginFailed.observe(this@LoginActivity){
                         binding.error = it
                     }
                 }
-            }
         }
     }
 
@@ -81,8 +92,8 @@ class LoginActivity: AppCompatActivity(), Ilistener {
     }
 
 
-    override fun profileLogin(profileId: Int?) {
-        ProfileDetailActivity.startProfile(this, profileId)
+    override fun profileLogin(profile: Profile) {
+        ProfileDetailActivity.startProfile(this)
     }
 
 
@@ -94,5 +105,4 @@ class LoginActivity: AppCompatActivity(), Ilistener {
             context.startActivity(intent)
         }
     }
-
 }

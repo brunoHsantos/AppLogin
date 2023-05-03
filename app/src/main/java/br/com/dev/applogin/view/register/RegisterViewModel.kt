@@ -1,5 +1,6 @@
 package br.com.dev.applogin.view.register
 
+import android.database.sqlite.SQLiteOutOfMemoryException
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.dev.applogin.model.dataClass.Profile
@@ -19,7 +20,12 @@ class RegisterViewModel(
         if (name != null && name.isNotEmpty()){
 
             val profile = Profile(name = name, sex = sex, email = email, password = password)
-            repositoryLocal.insertPorfile(profile)
+
+            try {
+                repositoryLocal.insertProfile(profile)
+            }catch (e: Exception ) {
+                println(e.message )
+            }
 
         }else{
             requiredField.postValue("Campo Obrigatório!")
