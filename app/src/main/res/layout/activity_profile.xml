@@ -19,6 +19,10 @@
         type="String" />
 
 
+        <variable
+            name="isLoading"
+            type="Boolean" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,7 +61,7 @@
             android:id="@+id/textViewAge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{ageProfile}"
+            android:text="@{ageProfile.toString()}"
             android:hint="Idade:"
             android:textSize="15sp"
             android:layout_marginTop="10dp"
@@ -90,6 +94,16 @@
             android:layout_marginBottom="25dp"
             app:layout_constraintEnd_toEndOf="@id/textViewSex"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:visibleIf="@{isLoading}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

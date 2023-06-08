@@ -1,5 +1,6 @@
 package br.com.dev.applogin.utils
 
+import android.view.View
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputEditText
 
@@ -11,4 +12,9 @@ object BindingUtils {
     }
 
 
+    @JvmStatic
+    @BindingAdapter("visibleIf")
+    fun setRequiredField(view: View, isEnabled: Boolean) {
+        view.visibility = if(isEnabled) View.VISIBLE else View.GONE
+    }
 }

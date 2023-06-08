@@ -6,9 +6,6 @@
             name="nameRegister"
             type="String" />
 
-        <variable
-            name="ageRegister"
-            type="String" />
 
         <variable
             name="sexRegister"
@@ -25,10 +22,6 @@
         <variable
             name="error"
             type="String" />
-
-        <variable
-            name="isButtonEnabled"
-            type="Boolean" />
 
 
     </data>
@@ -72,8 +65,8 @@
             android:id="@+id/etAgeRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:requiredField="@{error}"
             android:hint="Idade:"
-            android:text="@{ageRegister}"
             android:textSize="15sp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="50dp"
@@ -88,6 +81,7 @@
             android:layout_height="wrap_content"
             android:hint="Sexo:"
             android:text="@{sexRegister}"
+            app:requiredField="@{error}"
             android:textSize="15sp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="50dp"
@@ -102,6 +96,7 @@
             android:layout_height="wrap_content"
             android:hint="Email:"
             android:text="@{emailRegister}"
+            app:requiredField="@{error}"
             android:textSize="15sp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="50dp"
@@ -116,6 +111,7 @@
             android:layout_height="wrap_content"
             android:hint="Senha:"
             android:text="@{passwordRegister}"
+            app:requiredField="@{error}"
             android:textSize="15sp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="50dp"

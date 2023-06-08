@@ -4,31 +4,28 @@ package br.com.dev.applogin.view.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import br.com.dev.applogin.R
 import br.com.dev.applogin.databinding.ActivityLoginBinding
-import br.com.dev.applogin.localData.ProfileDataBase
-import br.com.dev.applogin.model.dataClass.Profile
-import br.com.dev.applogin.model.repository.IRepositoryLocal
-import br.com.dev.applogin.model.repository.RepositoryLocal
+import br.com.dev.applogin.localData.SharedPreferencesManager
+import br.com.dev.applogin.model.dto.IdProfile
+import br.com.dev.applogin.model.dto.LoginResponse
+import br.com.dev.applogin.model.repository.RepositoryRemote
+import br.com.dev.applogin.remoteData.ApiService
+import br.com.dev.applogin.remoteData.IApi
 import br.com.dev.applogin.view.detail.ProfileDetailActivity
-import br.com.dev.applogin.view.register.Ilistener
 import br.com.dev.applogin.view.register.RegisterActivity
 
-class LoginActivity: AppCompatActivity(), Ilistener {
-
+class LoginActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: LoginViewModel
-   // private lateinit var profile: Profile
 
-    private lateinit var repositoryLocal: IRepositoryLocal
-    private lateinit var profile: ProfileDataBase
-
-//    val profileId : Int? by lazy {  intent.extras?.getInt(IS_CREATE_LOGIN) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,51 +36,66 @@ class LoginActivity: AppCompatActivity(), Ilistener {
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return LoginViewModel(
-                    repositoryLocal = RepositoryLocal(ProfileDataBase.getDatabaseInstance(this@LoginActivity))
+                    repositoryRemote = RepositoryRemote(ApiService.getService().create(IApi::class.java))
                 )as T
             }
 
         })[LoginViewModel::class.java]
 
-        /*
+        var idLogin = SharedPreferencesManager(this)
 
+        val userId = idLogin.getUserId()
 
-        if (profileId != null) {
-            viewModel.loginProfileId(profileId)
-            profileLogin(profileId)
+        if (userId != null){
+            ProfileDetailActivity.startProfile(this, userId)
         }else{
-            viewModel.loginProfile(profileId)
-
+            enter()
+            createProfileClick()
         }
 
-
-         */
-        enter()
-        createProfileClick()
+        configureObservables()
     }
 
 
+    private fun enter() {
 
-
-    private fun enter(){
         binding.login.setOnClickListener {
-                if (binding.etEmailLogin.text.toString().isNotEmpty() && binding.etPassowrdLogin.text.toString().isNotEmpty()) {
-                    var profile = Profile(email = binding.etEmailLogin.text.toString(), password = binding.etPassowrdLogin.text.toString())
-                    //profileLogin(profile)
+            val email = binding.etEmailLogin.text.toString()
+            val senha = binding.etPassowrdLogin.text.toString()
 
-                    try {
-                        repositoryLocal.enterLogin(profile)
-                    }catch (e: Exception){
-                        println(e.message)
-                    }
+            val login = LoginResponse(email, senha)
 
-                }else{
-                    viewModel.loginFailed.observe(this@LoginActivity){
-                        binding.error = it
-                    }
-                }
+            viewModel.getProfileRemote(login)
+
+            }
+        }
+
+
+    private fun configureObservables(){
+
+        viewModel.requiredField.observe(this) {
+            binding.error = it
+        }
+        viewModel.profileLoginRemoteId.observe(this){IdProfile->
+            IdProfile.let {
+                 ProfileDetailActivity.startProfile(this, IdProfile?.idPessoa )
+                 }
+            }
+
+        viewModel.loginError.observe(this){
+            Toast.makeText(this, "Email/senha inválidos!", Toast.LENGTH_SHORT).show()
+            clearLogin()
         }
     }
+
+
+    private fun clearLogin(){
+            binding.etEmailLogin.text?.clear()
+            binding.etPassowrdLogin.text?.clear()
+            binding.etEmailLogin.requestFocus()
+
+    }
+
 
     private fun createProfileClick() {
         binding.textRegister.setOnClickListener {
@@ -91,17 +103,11 @@ class LoginActivity: AppCompatActivity(), Ilistener {
         }
     }
 
-
-    override fun profileLogin(profile: Profile) {
-        ProfileDetailActivity.startProfile(this)
-    }
-
-
     companion object {
-        const val IS_CREATE_LOGIN = "isCreate"
-        fun startActivity(context: Context, isLogin: Int? = null) {
+        const val IS_LOGIN = "isCreate"
+        fun startActivity(context: Context, idUser: Int? = null) {
             val intent = Intent(context, LoginActivity::class.java)
-            intent.putExtra(IS_CREATE_LOGIN, isLogin)
+            intent.putExtra(IS_LOGIN, idUser)
             context.startActivity(intent)
         }
     }
