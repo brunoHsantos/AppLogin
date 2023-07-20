@@ -13,13 +13,12 @@ import androidx.lifecycle.observe
 import br.com.dev.applogin.R
 import br.com.dev.applogin.databinding.ActivityLoginBinding
 import br.com.dev.applogin.localData.SharedPreferencesManager
-import br.com.dev.applogin.model.dto.IdProfile
 import br.com.dev.applogin.model.dto.LoginResponse
 import br.com.dev.applogin.model.repository.RepositoryRemote
 import br.com.dev.applogin.remoteData.ApiService
 import br.com.dev.applogin.remoteData.IApi
-import br.com.dev.applogin.view.detail.ProfileDetailActivity
 import br.com.dev.applogin.view.register.RegisterActivity
+import br.com.dev.applogin.view.tasks.TaskActivity
 
 class LoginActivity: AppCompatActivity() {
 
@@ -31,7 +30,6 @@ class LoginActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
-
 
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -47,12 +45,11 @@ class LoginActivity: AppCompatActivity() {
         val userId = idLogin.getUserId()
 
         if (userId != null){
-            ProfileDetailActivity.startProfile(this, userId)
+            TaskActivity.startActivityTask(this, userId)
         }else{
             enter()
             createProfileClick()
         }
-
         configureObservables()
     }
 
@@ -60,11 +57,11 @@ class LoginActivity: AppCompatActivity() {
     private fun enter() {
 
         binding.login.setOnClickListener {
+
             val email = binding.etEmailLogin.text.toString()
             val senha = binding.etPassowrdLogin.text.toString()
 
             val login = LoginResponse(email, senha)
-
             viewModel.getProfileRemote(login)
 
             }
@@ -76,26 +73,20 @@ class LoginActivity: AppCompatActivity() {
         viewModel.requiredField.observe(this) {
             binding.error = it
         }
+
         viewModel.profileLoginRemoteId.observe(this){IdProfile->
             IdProfile.let {
-                 ProfileDetailActivity.startProfile(this, IdProfile?.idPessoa )
+                TaskActivity.startActivityTask(this, IdProfile?.idPessoa)
                  }
             }
 
         viewModel.loginError.observe(this){
             Toast.makeText(this, "Email/senha inválidos!", Toast.LENGTH_SHORT).show()
-            clearLogin()
-        }
-    }
-
-
-    private fun clearLogin(){
             binding.etEmailLogin.text?.clear()
             binding.etPassowrdLogin.text?.clear()
             binding.etEmailLogin.requestFocus()
-
+        }
     }
-
 
     private fun createProfileClick() {
         binding.textRegister.setOnClickListener {
@@ -109,6 +100,18 @@ class LoginActivity: AppCompatActivity() {
             val intent = Intent(context, LoginActivity::class.java)
             intent.putExtra(IS_LOGIN, idUser)
             context.startActivity(intent)
+        }
+    }
+
+    private var isOnMainScreen = false
+    override fun onBackPressed() {
+        if (isOnMainScreen) {
+            // Permita que o botão "voltar" funcione normalmente, chamando o super.onBackPressed()
+            super.onBackPressed()
+        } else {
+            finishAffinity()
+            // Bloqueie o botão "voltar" ou faça qualquer ação desejada quando o usuário não estiver na tela principal
+            // Por exemplo, exiba uma mensagem informando que o usuário não pode voltar neste momento
         }
     }
 }

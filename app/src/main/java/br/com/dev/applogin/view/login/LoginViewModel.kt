@@ -19,9 +19,9 @@ class LoginViewModel(
     val requiredField = MutableLiveData<String>()
 
 
-    fun getProfileRemote(login: LoginResponse){
+  fun getProfileRemote(login: LoginResponse){
        if (login.email != null && login.email.isNotEmpty()){
-           repositoryRemote.enterLogin(login, isSuccess ={profileLoginRemoteId.postValue(it)}) {loginError.postValue(Unit)}
+           repositoryRemote.enterLogin(login, isSuccess ={profileLoginRemoteId.postValue(it)}, isError = {loginError.postValue(Unit)})
        }else{
            requiredField.postValue("Campos Obrigatórios!")
        }

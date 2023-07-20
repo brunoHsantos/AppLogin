@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -20,6 +21,10 @@
             type="String" />
 
         <variable
+            name="confirmPassword"
+            type="String" />
+
+        <variable
             name="error"
             type="String" />
 
@@ -27,8 +32,6 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -36,8 +39,8 @@
             android:id="@+id/registerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:fontFamily="monospace"
+            android:layout_marginTop="150dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:hint="Registre-se"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -112,6 +115,7 @@
             android:hint="Senha:"
             android:text="@{passwordRegister}"
             app:requiredField="@{error}"
+            android:inputType="textPassword"
             android:textSize="15sp"
             android:layout_marginTop="10dp"
             android:layout_marginStart="50dp"
@@ -120,18 +124,46 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etConfirmPassowrd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirme sua Senha:"
+            android:text="@{confirmPassword}"
+            app:requiredField="@{error}"
+            android:inputType="textPassword"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            app:layout_constraintTop_toBottomOf="@id/etPassowrdRegister"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <ImageButton
+            android:id="@+id/showPassordRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/tranparent"
+            app:layout_constraintEnd_toEndOf="@id/etPassowrdRegister"
+            app:layout_constraintTop_toTopOf="@id/etPassowrdRegister"
+            app:layout_constraintBottom_toBottomOf="@id/etPassowrdRegister"/>
+
 
         <Button
             android:id="@+id/btnCreateCount"
+            style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Criar conta"
-            android:backgroundTint="@color/teal_200"
             android:layout_marginTop="50dp"
-            app:layout_constraintTop_toBottomOf="@id/etPassowrdRegister"
-            app:layout_constraintStart_toStartOf="parent"
+            android:backgroundTint="@color/green"
+            android:backgroundTintMode="src_atop"
+            android:text="Criar conta"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etConfirmPassowrd" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

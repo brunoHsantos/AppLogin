@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="wonerTask"
+            type="String" />
+
+
+        <variable
+            name="titleTask"
+            type="String" />
+
+
+        <variable
+            name="descriptionTask"
+            type="String" />
+
+
+
+        <variable
+            name="error"
+            type="String" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTaskOwner"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginStart="@dimen/size_24"
+            android:layout_marginEnd="@dimen/size_24"
+            android:layout_marginTop="@dimen/size_32"
+            android:hint="Responsável"
+            android:typeface="monospace"
+            app:requiredField="@{error}"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTaskTitle"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginStart="@dimen/size_24"
+            android:layout_marginEnd="@dimen/size_24"
+            android:layout_marginTop="@dimen/size_32"
+            android:hint="Titulo da tarefa"
+            android:typeface="monospace"
+            app:layout_constraintTop_toBottomOf="@id/etTaskOwner"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTaskDescription"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginStart="@dimen/size_24"
+            android:layout_marginEnd="@dimen/size_24"
+            android:layout_marginTop="@dimen/size_32"
+            android:hint="Descricão"
+            android:typeface="monospace"
+            app:layout_constraintTop_toBottomOf="@id/etTaskTitle"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Data de conclusão"
+            android:textSize="@dimen/font_18"
+            android:typeface="monospace"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toTopOf="@id/datelimit"
+            app:layout_constraintStart_toStartOf="@id/etTaskDescription" />
+
+        <CalendarView
+            android:id="@+id/datelimit"
+            android:layout_width="342dp"
+            android:layout_height="302dp"
+            android:layout_marginTop="80dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etTaskDescription" />
+
+
+        <Button
+            android:id="@+id/btnCreatTask"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#048477"
+            android:backgroundTintMode="src_atop"
+            android:hint="Adicionar"
+            android:textColorHint="@color/white"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toBottomOf="@id/btnBackTask"
+            app:layout_constraintEnd_toEndOf="@id/datelimit" />
+
+
+        <ImageButton
+            android:id="@+id/btnBackTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back"
+            android:background="@color/tranparent"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/datelimit"
+            app:tint="@android:color/holo_red_dark" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

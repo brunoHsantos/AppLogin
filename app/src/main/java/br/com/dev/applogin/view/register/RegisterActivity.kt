@@ -1,16 +1,17 @@
 package br.com.dev.applogin.view.register
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import br.com.dev.applogin.R
 import br.com.dev.applogin.databinding.ActivityRegisterBinding
-import br.com.dev.applogin.model.dto.Usuario
 import br.com.dev.applogin.model.repository.RepositoryRemote
 import br.com.dev.applogin.remoteData.ApiService
 import br.com.dev.applogin.remoteData.IApi
@@ -44,11 +45,11 @@ class RegisterActivity(): AppCompatActivity() {
             configureError()
         }
     }
+
     private fun configureError(){
         viewModel.requiredField.observe(this){
             binding.error = it
         }
-
         viewModel.createProfileResponse.observe(this){response->
             if (response){
                 LoginActivity.startActivity(this)
@@ -60,7 +61,6 @@ class RegisterActivity(): AppCompatActivity() {
         }
    }
 
-
     private fun configureClick() {
 
         binding.btnCreateCount.setOnClickListener {
@@ -69,11 +69,36 @@ class RegisterActivity(): AppCompatActivity() {
             val sexR = binding.etSexRegister.text.toString()
             val emailR = binding.etEmailRegister.text.toString()
             val passwordR = binding.etPassowrdRegister.text.toString()
+            val confirmPassword = binding.etConfirmPassowrd.text.toString()
 
-            viewModel.createProfile(nameR, ageR.toIntOrNull(), sexR, emailR, passwordR)
-
-             }
+            if (passwordR == confirmPassword){
+                viewModel.createProfile(nameR, ageR.toIntOrNull(), sexR, emailR, passwordR)
+            }else{
+                showDialog()
+            }
         }
+
+        //val showPassword = binding.showPassordRegister
+
+//        showPassword.setOnClickListener {
+//            val passwordR = binding.etPassowrdRegister
+//
+//
+//            val isPasswordVisible = passwordR.inputType == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+//
+//
+//            if (isPasswordVisible){
+//                passwordR.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+//                showPassword.setImageResource(R.drawable.ic_eye_24)
+//            }else{
+//                passwordR.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+//                showPassword.setImageResource()
+//            }
+//            passwordR.setSelection(passwordR.text?.length ?:0)
+//            invalidateOptionsMenu()
+//        }
+    }
+
 
     private fun clearField() {
         binding.etNameRegister.text?.clear()
@@ -81,7 +106,28 @@ class RegisterActivity(): AppCompatActivity() {
         binding.etSexRegister.text?.clear()
         binding.etEmailRegister.text?.clear()
         binding.etPassowrdRegister.text?.clear()
+        binding.etConfirmPassowrd.text?.clear()
+        binding.etNameRegister.requestFocus()
+    }
 
+
+    private fun showDialog(){
+        AlertDialog.Builder(this)
+            .setTitle("Senha incorreta!")
+            .setMessage("Revise os campos de senha")
+            .setPositiveButton("Sim", object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                   binding.etPassowrdRegister.text?.clear()
+                   binding.etConfirmPassowrd.text?.clear()
+                   binding.etPassowrdRegister.requestFocus()
+                }
+            })
+            .setNegativeButton("Cancelar", object : DialogInterface.OnClickListener{
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    clearField()
+                }
+            })
+            .show()
     }
 
 

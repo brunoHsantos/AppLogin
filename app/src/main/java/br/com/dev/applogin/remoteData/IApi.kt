@@ -1,9 +1,6 @@
 package br.com.dev.applogin.remoteData
 
-import br.com.dev.applogin.model.dto.IdProfile
-import br.com.dev.applogin.model.dto.LoginResponse
-import br.com.dev.applogin.model.dto.ProfileDetail
-import br.com.dev.applogin.model.dto.Usuario
+import br.com.dev.applogin.model.dto.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -20,5 +17,21 @@ interface IApi {
 
     @POST("pessoa")
     fun createProfile(@Body profile: Usuario): Call<Void>
+
+
+//    @Multipart
+//    @POST("pessoa/photo")
+//    @Headers("Content-Type: multipart/from-data")
+//    fun uploadPhoto(
+//        @Part("userId") userId: RequestBody,
+//        @Part photo: MultipartBody.Part
+//    ): Call<PhotoProfile>
+//
+//
+//    @POST("task")
+//    fun createTask(@Body task: Task): Call<Void>
+//
+//    @GET("tasks")
+//    fun getTasks(): Call<List<Task>>
 
 }
